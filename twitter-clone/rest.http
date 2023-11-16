@@ -1,0 +1,64 @@
+@host=http://localhost:8081/twc
+@producerId=22bd0bbd-1b1b-4a50-9ee6-2a1a66b8561b
+@producerAndSubscriberId=96b0c311-9242-4928-8b98-5a12723cc901
+@subscriberId=71db7a3d-a217-408a-8343-7ddf925db6ef
+@randomId=2a884e14-f3ee-4239-a31b-8e2e683b5e9e
+@messageId=36c021ac-91d7-4f9c-84ee-283604f88b3d
+@subscriptionId=41148655-effd-4d88-8a16-3320ff956490
+
+###
+GET {{host}}/producer/{{randomId}}/message
+
+###
+GET {{host}}/producer/{{producerId}}/message
+
+###
+GET {{host}}/producer/{{producerAndSubscriberId}}/message
+
+###
+GET {{host}}/subscriber/{{randomId}}/message
+
+###
+GET {{host}}/subscriber/{{subscriberId}}/message
+
+###
+GET {{host}}/subscriber/{{producerAndSubscriberId}}/message
+
+###
+GET {{host}}/subscriber/{{subscriberId}}/subscription
+
+###
+GET {{host}}/subscriber/{{producerId}}/subscription
+
+###
+POST {{host}}/message
+Content-Type: application/json
+
+{
+    "producerId": "{{producerId}}",
+    "content": "How about a new message this time?"
+}
+
+###
+POST {{host}}/message
+Content-Type: application/json
+
+{
+    "producerId": "{{randomId}}",
+    "content": "How about a new message this time?"
+}
+
+###
+POST {{host}}/subscription
+Content-Type: application/json
+
+{
+    "producerId": "{{producerId}}",
+    "subscriberId": "{{subscriberId}}"
+}
+
+###
+DELETE {{host}}/message/{{messageId}}
+
+###
+DELETE {{host}}/subscription/{{subscriptionId}}

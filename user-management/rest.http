@@ -1,0 +1,34 @@
+@host=http://localhost:8081/usm
+@randomId=3e1f5734-fad6-4f98-a139-9d960835fa11
+@adminId=22bd0bbd-1b1b-4a50-9ee6-2a1a66b8561b
+@userId=71db7a3d-a217-408a-8343-7ddf925db6ef
+
+###
+GET {{host}}/user/all?id={{userId}}
+
+###
+GET {{host}}/user/all?id={{adminId}}
+
+###
+GET {{host}}/user/{{randomId}}
+
+###
+GET {{host}}/user/{{userId}}
+
+###
+GET {{host}}/role/all?id={{randomId}}
+
+###
+GET {{host}}/role/all?id={{adminId}}
+
+###
+POST {{host}}/user
+Content-Type: application/json
+
+{
+    "username": "parammmer",
+    "password": "widcm932"
+}
+
+###
+DELETE {{host}}/user/{{adminId}}

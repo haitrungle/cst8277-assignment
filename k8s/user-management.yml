@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usm-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-management
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 300
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: user-management
+    spec:
+      containers:
+      - name: usm-pod
+        image: ghcr.io/haitrungle/cst8277-usm:0.1
+        ports:
+        - containerPort: 8080
+        env:
+          - name: MYSQL_HOST
+            value: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usm-svc
+  labels:
+    app: user-management
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    nodePort: 30001
+    protocol: TCP
+  selector:
+    app: user-management

@@ -1,0 +1,5 @@
+resources:
+  - k8s/mysql.yml
+  - k8s/user-management.yml
+  - k8s/twitter-clone.yml
+  - k8s/ingress.yml

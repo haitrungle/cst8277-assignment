@@ -25,7 +25,9 @@
 			"extensions": [
 				"humao.rest-client",
 				"vscjava.vscode-spring-initializr",
-				"mutantdino.resourcemonitor"
+				"mutantdino.resourcemonitor",
+				"mvllow.rose-pine",
+				"RapidAPI.vscode-rapidapi-client"
 			]
 		}
 	},

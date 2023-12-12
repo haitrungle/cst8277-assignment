@@ -24,6 +24,11 @@ public class Controller {
     @Autowired
     private SessionRepository sessionRepo;
 
+    @GetMapping("login/oauth2/code/github")
+    public ResponseEntity<?> login(@RequestParam String code, @RequestParam String state) {
+        return ResponseEntity.ok().body("Hello, world!");
+    }
+
     @GetMapping("/user/all")
     public ResponseEntity<?> getAllUsers(@RequestParam String id) {
         return authenticate(id, user -> {

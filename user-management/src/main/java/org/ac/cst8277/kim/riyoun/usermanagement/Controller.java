@@ -1,6 +1,8 @@
 package org.ac.cst8277.kim.riyoun.usermanagement;
 
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import lombok.Data;
 
@@ -24,9 +28,9 @@ public class Controller {
     @Autowired
     private SessionRepository sessionRepo;
 
-    @GetMapping("login/oauth2/code/github")
-    public ResponseEntity<?> login(@RequestParam String code, @RequestParam String state) {
-        return ResponseEntity.ok().body("Hello, world!");
+    @GetMapping("/github")
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        return principal.getAttributes();
     }
 
     @GetMapping("/user/all")

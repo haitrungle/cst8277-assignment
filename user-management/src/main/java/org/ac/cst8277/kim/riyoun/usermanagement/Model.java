@@ -4,10 +4,12 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -32,8 +34,7 @@ class User {
   )
   private List<Role> roles;
 
-  @OneToOne(cascade=CascadeType.ALL)
-  @JoinColumn(name="last_session_id", referencedColumnName="id")
+  @OneToOne(cascade=CascadeType.ALL, mappedBy = "user")
   private Session lastSession;
 }
 
@@ -43,6 +44,10 @@ class Session {
   @Id
   @GeneratedValue
   private UUID id;
+
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @Column(name="last_login")
   private Timestamp lastLogin;

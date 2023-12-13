@@ -59,7 +59,7 @@
     </main>
     <script type="text/javascript">
         $.get("/github", (data) => {
-            $("#user").html(data.login);
+            $("#user").html(data.username);
             $(".unauthenticated").hide()
             $(".authenticated").show()
         });

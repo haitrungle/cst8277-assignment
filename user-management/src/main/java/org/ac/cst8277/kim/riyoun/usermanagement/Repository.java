@@ -25,9 +25,17 @@ interface UserRepository extends JpaRepository<User, UUID> {
             "JOIN FETCH u.roles " + 
             "JOIN FETCH u.lastSession WHERE u.username = :username AND u.password = :password")
     Optional<User> findByUsernameAndPassword(@Param("username") String username, @Param("username") String password);
+
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN FETCH u.roles " + 
+            "JOIN FETCH u.lastSession WHERE u.username = :username")
+    Optional<User> findByUsername(@Param("username") String username);
 }
 
-interface RoleRepository extends JpaRepository<Role, UUID> {}
+interface RoleRepository extends JpaRepository<Role, UUID> {
+    @Query("SELECT DISTINCT r FROM Role r WHERE r.role = :role")
+    Optional<Role> findByName(@Param("role") String role);
+}
 
 interface SessionRepository extends JpaRepository<Session, UUID> {
     @Query("SELECT DISTINCT s FROM Session s " +

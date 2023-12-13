@@ -1,7 +1,8 @@
 package org.ac.cst8277.kim.riyoun.usermanagement;
 
 import java.sql.Timestamp;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import lombok.Data;
@@ -34,24 +36,39 @@ public class Controller {
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<?> getAllUsers(@RequestParam String id) {
-        return authenticate(id, user -> {
-            for (Role r : user.getRoles()) {
-                if (r.getRole().equals("ADMIN")) {
-                    return ResponseEntity.ok().body(userRepo.findAll());
-                }
-            }
-            return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Your are not authorized to do this.");
-        });
+    public ResponseEntity<?> getAllUsers(@AuthenticationPrincipal OAuth2User principal) {
+        List<String> roles = new ArrayList<String>();
+        for (GrantedAuthority r : principal.getAuthorities()) {
+            roles.add(r.getAuthority());
+        };
+        if (roles.contains("ADMIN")) {
+            return ResponseEntity.ok().body(userRepo.findAll());
+        }
+        return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("You have to be admin to do this.");
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUserWithId(@PathVariable("id") String id) {
-        return authenticate(id, user -> {
-            return ResponseEntity.ok().body(user);
-        });
+    public ResponseEntity<?> getUserWithId(@PathVariable("id") String id, @AuthenticationPrincipal OAuth2User principal) {
+        List<String> roles = new ArrayList<String>();
+        for (GrantedAuthority r : principal.getAuthorities()) {
+            roles.add(r.getAuthority());
+        };
+        if (roles.contains("ADMIN")) {
+            UUID uuid = UUID.fromString(id);
+            Optional<User> user = userRepo.findById(uuid);
+            if (user.isEmpty()) {
+                return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No user found. To create a new account, POST to '/usm/user' with username and password.");
+            } else {
+                return ResponseEntity.ok().body(user.get());
+            }
+        }
+        return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("You have to be admin to do this.");
     }
 
     @GetMapping("/user")

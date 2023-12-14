@@ -26,7 +26,7 @@ kubectl apply -k .
 
 If you updated the code, you will need to rebuild the Docker images, push them, and modify the corresponding YAML files in "k8s/".
 
-## Run it without k8s
+## Run without k8s
 
 1. Create a MySQL instance
 ```bash

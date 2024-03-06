@@ -7,7 +7,7 @@ You can load this project inside a dev container or open it on Github Codespaces
 - Docker
 - k3d, kubectl
 
-`k3d` runs `k3s`, a Kubernetes distribution by Rancher useful for educational purposes and local testing. The most popular lightweight k8s currently seems to be `minikube`, but I couldn't make it work on GitHub Codespaces, which is why I swicthed to `k3d`.
+`k3d` runs `k3s` under the hood, a Kubernetes distribution by Rancher useful for educational purposes and local testing. The most popular lightweight k8s currently seems to be `minikube`, but I couldn't make it work on GitHub Codespaces, which is why I switched to `k3d`.
 
 ## Deploy locally
 
